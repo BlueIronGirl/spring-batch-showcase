@@ -1,4 +1,4 @@
-package de.alice.springbatch.config;
+package de.alice.springbatch.config.csv;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

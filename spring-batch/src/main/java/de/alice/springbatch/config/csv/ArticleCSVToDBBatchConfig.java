@@ -1,4 +1,4 @@
-package de.alice.springbatch.config.article;
+package de.alice.springbatch.config.csv;
 
 import de.alice.springbatch.entity.Article;
 import de.alice.springbatch.repository.ArticleRepository;
@@ -23,7 +23,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-public class ArticleBatchConfig {
+public class ArticleCSVToDBBatchConfig {
 
     private final ArticleRepository articleRepository;
     private final JobRepository jobRepository;
@@ -31,7 +31,7 @@ public class ArticleBatchConfig {
     private static final int BATCH_SIZE = 5;
 
     @Autowired
-    public ArticleBatchConfig(ArticleRepository articleRepository, JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+    public ArticleCSVToDBBatchConfig(ArticleRepository articleRepository, JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         this.articleRepository = articleRepository;
         this.jobRepository = jobRepository;
         this.transactionManager = transactionManager;
@@ -88,9 +88,10 @@ public class ArticleBatchConfig {
                 .reader(articleCSVReader())
                 .processor(articleProcessor())
                 .writer(articleWriter())
-                .faultTolerant()
-                .retryLimit(3)
-                .retry(Exception.class)
+                .allowStartIfComplete(true) // Allow restart after completion
+                .faultTolerant() // Retry on Exception
+                .retryLimit(3) // Retry 3 times
+                .retry(Exception.class) // Retry on Exception
                 .build();
     }
 

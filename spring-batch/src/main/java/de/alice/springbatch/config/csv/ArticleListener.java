@@ -1,4 +1,4 @@
-package de.alice.springbatch.config.article;
+package de.alice.springbatch.config.csv;
 
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
